@@ -1,0 +1,6 @@
+/.project
+.vscode/
+.htaccess
+.DS_Store
+/node_modules
+/dist
