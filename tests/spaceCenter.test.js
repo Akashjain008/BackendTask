@@ -8,38 +8,48 @@ const clientWithOutAuth = getClient();
 beforeAll(async () => {
 })
 
-describe('Test the Space Center Mutation', () => {
-    it('should not execute mutation without authorization', async () => {
-        const postScheduleFlight = gql`
-            mutation ScheduleFlight {
-                scheduleFlight(flightInfo: {launchSiteId: "7c17eec7-6b8c-4683-b556-a997bd2eff65",landingSiteId: "a283632c-c701-4827-9375-ae6fb3445ca9", departureAt: "2022-05-07", seatCount: 200}) {
-                    code
-                    seatCount
-                    availableSeats
-                    id
-                }
+describe('Test the space center query', () => {
+    it('should not execute space center query without authorization', async () => {
+        const getSpaceCenter = gql`
+        query SpaceCenters {
+            spaceCenters(page: 1, pageSize: 2) {
+              pagination {
+                total
+                page
+                pageSize
+              }
+              nodes {
+                name
+                uid
+              }
             }
+          }
      `;
-        await expect(clientWithOutAuth.mutate({
-            mutation: postScheduleFlight
+        await expect(clientWithOutAuth.query({
+            query: getSpaceCenter
         })).rejects.toThrowError("Not Authorized");
     })
 
-    it('should execute planets query with authorization', async () => {
-        const postScheduleFlight = gql`
-        mutation ScheduleFlight {
-            scheduleFlight(flightInfo: {launchSiteId: "7c17eec7-6b8c-4683-b556-a997bd2eff65",landingSiteId: "a283632c-c701-4827-9375-ae6fb3445ca9", departureAt: "2022-05-07", seatCount: 200}) {
-                code
-                seatCount
-                availableSeats
-                id
+    it('should execute space center query with authorization', async () => {
+        const getSpaceCenter = gql`
+        query SpaceCenters {
+            spaceCenters(page: 1, pageSize: 2) {
+              pagination {
+                total
+                page
+                pageSize
+              }
+              nodes {
+                name
+                uid
+              }
             }
-        }
-        `;
-        const mutationRes = await clientWithAuth.mutate({
-            mutation: postScheduleFlight
+          }
+     `;
+        const queryRes = await clientWithAuth.query({
+            query: getSpaceCenter
         });
-        console.log('mutationRes', mutationRes);
-        await expect(mutationRes.data.scheduleFlight).toBe(1);
+        console.log('queryRes', queryRes);
+        await expect(queryRes.data.spaceCenters.nodes.length).toBe(2);
     })
 });

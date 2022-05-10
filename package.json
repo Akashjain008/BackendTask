@@ -10,17 +10,7 @@
     "watch": "./node_modules/.bin/nodemon --watch src --exec npm start",
     "migration": "npx knex migrate:latest --knexfile ./Knexfile.js",
     "seeds": "npx knex seed:run --knexfile ./Knexfile.js",
-    "test": "jest -c jest.config.js --env=node",
-    "test:cov": "jest -c jest.config.js --coverage --env=node",
-    "test:watch": "jest -c jest.config.js -i --watchAll",
-    "test:unit": "npm test -- test/unit",
-    "test:integration": "npm test -- test/integration",
-    "test:watch:unit": "npm run test:unit -- --watch",
-    "test:watch:integration": "npm run test:integration -- --watch",
-    "test:coverage": "npm test -- --coverage",
-    "test:coverage:unit": "npm run test:unit -- --coverage",
-    "test:coverage:integration": "npm run test:integration -- --coverage",
-    "testapp": "SET NODE_ENV=development && jest --runInBand"
+    "test": "SET NODE_ENV=development && jest --runInBand"
   },
   "keywords": [],
   "author": "",
